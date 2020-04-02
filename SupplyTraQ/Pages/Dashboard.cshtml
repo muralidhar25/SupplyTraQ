@@ -1,0 +1,580 @@
+﻿@page
+@model SupplyTraQ.DashboardModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../assets/img/favicon.ico">
+    <title>Dashboard - SupplyTraQ</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap-Table -->
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css">
+    <!-- Bootstrap-Select -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+    <!-- Chart.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css">
+    <!-- JQVmap -->
+    <link rel="stylesheet" media="all" href="../assets/css/jquery-jvectormap-2.0.5.css">
+    <!-- Custom CSS -->
+    <link href="../assets/css/dashboard.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-default navbar-fixed-top shadow" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#"><img src="../assets/img/traq-logo.png" alt=""></a>
+                </div>
+
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <button id="menu-toggle" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </li>
+                    <li class="hidden-lg">
+                        <a href="#" class="search" data-toggle="modal" data-target="#myModal"><i class="fa fa-search"></i></a>
+                    </li>
+                    <li class="dropdown pull-right visible-xs">
+                        <a href="#" class="dropdown-toggle profile" data-toggle="dropdown"><img class="avatar" src="../assets/img/avatar.jpg">John Doe <b class="fa fa-angle-down"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="fa fa-fw fa-user"></i> Edit Profile</a></li>
+                            <li><a href="#"><i class="fa fa-fw fa-cog"></i> Change Settings</a></li>
+                            <li class="divider"></li>
+                            <li><a href="signed-out"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="navbar-search visible-lg">
+                    <form class="navbar-form" role="search">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default advanced-search-btn" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                            </div>
+                            <input type="text" class="form-control advanced-search-input" placeholder="Quick Search...">
+                        </div>
+                    </form>
+                </div>
+
+                <ul class="nav navbar-nav navbar-right hidden-xs">
+                    <li>
+                        <a href="#" class="dropdown-toggle favorites" data-toggle="dropdown"><i class="fa fa-star"></i> <span class="badge badge-warning">4</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="fa fa-fw fa-star"></i> ... was added to Favorites! <br><span>- just now</span></a></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="fa fa-fw fa-star"></i> ... was added to Favorites! <br><span>- a minute ago</span></a></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="fa fa-fw fa-star"></i> ... was added to Favorites! <br><span>- 2 minutes ago</span></a></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="fa fa-fw fa-star"></i> ... was added to Favorites! <br><span>- 3 minutes ago</span></a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="nav-divider"></span>
+                    </li>
+                    <li>
+                        <a href="#" class="dropdown-toggle messages" data-toggle="dropdown"><i class="fa fa-envelope"></i> <span class="badge badge-info">3</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="fa fa-fw fa-info-circle imprtant"></i> Important Message!</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="fa fa-fw fa-info-circle warning"></i> Warning Message!</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="fa fa-fw fa-info-circle info"></i> System Message.</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="nav-divider"></span>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle profile" data-toggle="dropdown"><img class="avatar" src="../assets/img/avatar.jpg">John Doe <b class="fa fa-angle-down"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="fa fa-fw fa-user"></i> Edit Profile</a></li>
+                            <li><a href="#"><i class="fa fa-fw fa-cog"></i> Change Settings</a></li>
+                            <li class="divider"></li>
+                            <li><a href="signed-out"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper" class="sidebar-default shadow">
+            <ul class="nav nav-sidebar">
+                <li class="active">
+                    <a href="#"><i class="fa fa-fw fa-tachometer"></i> Dashboard</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-fw fa-file-text"></i> My Reports</a>
+                </li>
+                <li>
+                    <a href="companies"><i class="fa fa-fw fa-address-card"></i> Company Profiles</a>
+                </li>
+                <li>
+                    <a href="products" data-toggle="collapse" data-target="#submenu-1"><i class="fa fa-fw fa-ambulance"></i> Products<i class="fa fa-fw fa-angle-right pull-right"></i></a>
+                    <ul id="submenu-1" class="collapse">
+                        <li><a href="#"><i class="fa fa-medkit"></i> Oral</a></li>
+                        <li><a href="#"><i class="fa fa-medkit"></i> Intravenous (IV)</a></li>
+                        <li><a href="#"><i class="fa fa-medkit"></i> Subcutaneous (SC)</a></li>
+                        <li><a href="#"><i class="fa fa-medkit"></i> Biologics</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="regions" data-toggle="collapse" data-target="#submenu-2"><i class="fa fa-fw fa-globe"></i> Regional Highlights<i class="fa fa-fw fa-angle-right pull-right"></i></a>
+                    <ul id="submenu-2" class="collapse">
+                        <li><a href="#"><i class="fa fa-map-marker"></i> North America</a></li>
+                        <li><a href="#"><i class="fa fa-map-marker"></i> Europe</a></li>
+                        <li><a href="#"><i class="fa fa-map-marker"></i> Asia-Pacific</a></li>
+                        <li><a href="#"><i class="fa fa-map-marker"></i> South America</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Content -->
+        <div id="page-content-wrapper" class="main">
+
+            <div class="container-fluid">
+
+                <div class="panel panel-default news-panel shadow hidden-xs hidden-sm">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">News:</h3>
+                    </div>
+                    <ul class="newsticker">
+                        <li><b>First News :</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit - <span>03.02.2020</span></li>
+                        <li><b>Second News :</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit - <span>03.02.2020</span></li>
+                        <li><b>Third News :</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit - <span>03.02.2020</span></li>
+                        <li><b>Forth News :</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit - <span>03.02.2020</span></li>
+                    </ul>
+                    <div class="newsticker-controls hidden-md">
+                        <a id="prev-button" class="btn btn-default"><i class="fa fa-backward"></i></a>
+                        <a id="next-button" class="btn btn-default"><i class="fa fa-forward"></i></a>
+                        <a id="stop-button" class="btn btn-default"><i class="fa fa-pause"></i></a>
+                        <a id="start-button" class="btn btn-default"><i class="fa fa-play"></i></a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- <div class="col-lg-6">
+                        <div class="panel panel-default panel-table shadow">
+                          <div class="panel-heading">
+                            <h3 class="panel-title">My Regions</h3>
+                            <a class="btn widget-options pull-right panel-option"><i class="fa fa-cog"></i></a>
+                          </div>
+                          <div class="panel-settings collapse">
+                              <select id="continent" class="selectpicker" data-width="auto">
+                              <option value="WorldMap">All My Regions</option>
+                              <option value="Asia">Asia Pacific</option>
+                              <option value="NorthAmerica">Nort America</option>
+                              <option value="SouthAmerica">South America</option>
+                              </select>
+                              <button class="btn btn-default pull-right hidden-xs">View Region</button>
+                          </div>
+                          <div class="panel-body">
+                            <div class="map-holder">
+                              <div id="vmap-world" class="vmap"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    -->
+                    <div class="col-lg-6">
+                        <div class="panel panel-default shadow">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">My Regions</h3>
+                                <a class="btn widget-options pull-right panel-option"><i class="fa fa-cog"></i></a>
+                            </div>
+                            <div class="panel-settings collapse">
+                                <select id="region-select" class="selectpicker" data-width="auto">
+                                    <option>Select Region:</option>
+                                    <option value="regions">Nort America</option>
+                                    <option value="regions">Europe</option>
+                                </select>
+                                <a class="btn btn-default pull-right hidden-xs" href="regions">View All Regions</a>
+                            </div>
+                            <div class="panel-body">
+                                <div id="map" class="jvectormap jvectormap-merc" data-projection="merc" data-name="continents_merc" style="width:700px;height:300px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="panel panel-default panel-table shadow">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">My Modules</h3>
+                                <a class="btn widget-options pull-right panel-option"><i class="fa fa-cog"></i></a>
+                            </div>
+                            <div class="panel-settings collapse">
+                                <select id="continent" class="selectpicker" data-width="auto">
+                                    <option value="WorldMap">Module 1</option>
+                                    <option value="Asia">Module 2</option>
+                                    <option value="NorthAmerica">Module 3</option>
+                                </select>
+                                <button class="btn btn-default pull-right hidden-xs">View Settings</button>
+                            </div>
+                            <div class="panel-body" style="height:350px;padding:75px 25px 0;">
+                                <!-- <div class="map-holder">
+                                    <div id="vmap-facility-map"></div>
+                                  </div>
+                                -->
+                                <p><button class="btn btn-info btn-large btn-block">Module 1 - Small Molecules</button></p>
+                                <p><button class="btn btn-disabled btn-large btn-block">Module 2 - Biologics (Disabled)</button></p>
+                                <p><button class="btn btn-disabled btn-large btn-block">Module 3 - Advanced Insights (Disabled)</button></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Save Report -->
+                <div class="modal fade" id="saveReportModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="reportModalLabel">Save To My Reports</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="report-name" class="control-label">Report's Name:</label>
+                                        <input type="text" class="form-control" id="report-name">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-save"></i> Save Report</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View Report -->
+                <div class="modal fade" id="viewReportModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="reportModalLabel">View Report</h4>
+                            </div>
+                            <div class="panel-body table-responsive">
+                                <table class="table table-bordered table-hover table-report">
+                                    <thead>
+                                    </thead>
+                                    <tbody>
+                                    <thead>
+                                        <tr>
+                                            <th>Company</th>
+                                            <th>Phase</th>
+                                            <th>Pivotal Intent</th>
+                                            <th>Target</th>
+                                            <th>Disease</th>
+                                            <th>Techonology</th>
+                                            <th>Re. Designation</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Celgene</td>
+                                            <td>Phase 2</td>
+                                            <td>Yes</td>
+                                            <td>BCMA</td>
+                                            <td>Multiple Myeloma</td>
+                                            <td>T-Cell</td>
+                                            <td>US Reg. Designation</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-save"></i> Save</button>
+                                <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-pencil"></i> Edit</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="panel panel-default panel-table shadow">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">My Reports</h3>
+                                <a class="btn widget-options pull-right panel-option"><i class="fa fa-cog"></i></a>
+                            </div>
+                            <div class="panel-settings collapse">
+                                <select id="reportType" class="selectpicker" data-width="auto">
+                                    <option value="reportData">Data Reports</option>
+                                    <option value="reportVisual">Visual Reports</option>
+                                </select>
+                                <button class="btn btn-default pull-right hidden-xs">View All Reports</button>
+                            </div>
+                            <div class="panel-body table-responsive">
+                                <table class="table table-bordered table-hover table-report">
+                                    <thead>
+                                        <tr>
+                                            <th><i class="fa fa-file-text-o"></i></th>
+                                            <th>Name</th>
+                                            <th class="report-created">Created</th>
+                                            <th class="report-actions">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><i class="fa fa-file-text-o"></i></td>
+                                            <td><a href="#" title="" data-toggle="modal" data-target="#viewReportModal">My Data Report</a></td>
+                                            <td>05.02.2020</td>
+                                            <td>
+                                                <a class="btn btn-small btn-info" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-file-text-o"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Duplicate"><i class="fa fa-copy"></i></a>
+                                                <a class="btn btn-small btn-success" data-toggle="tooltip" data-placement="top" title="Export"><i class="fa fa-file-excel-o"></i></a>
+                                                <a class="btn btn-small btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fa fa-file-text-o"></i></td>
+                                            <td><a href="#" title="" data-toggle="modal" data-target="#viewReportModal">My Data Report</a></td>
+                                            <td>04.02.2020</td>
+                                            <td>
+                                                <a class="btn btn-small btn-info" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-file-text-o"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Duplicate"><i class="fa fa-copy"></i></a>
+                                                <a class="btn btn-small btn-success" data-toggle="tooltip" data-placement="top" title="Export"><i class="fa fa-file-excel-o"></i></a>
+                                                <a class="btn btn-small btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fa fa-file-text-o"></i></td>
+                                            <td><a href="#" title="" data-toggle="modal" data-target="#viewReportModal">My Data Report</a></td>
+                                            <td>03.02.2020</td>
+                                            <td>
+                                                <a class="btn btn-small btn-info" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-file-text-o"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Duplicate"><i class="fa fa-copy"></i></a>
+                                                <a class="btn btn-small btn-success" data-toggle="tooltip" data-placement="top" title="Export"><i class="fa fa-file-excel-o"></i></a>
+                                                <a class="btn btn-small btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fa fa-file-text-o"></i></td>
+                                            <td><a href="#" title="" data-toggle="modal" data-target="#viewReportModal">My Data Report</a></td>
+                                            <td>02.02.2020</td>
+                                            <td>
+                                                <a class="btn btn-small btn-info" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-file-text-o"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Duplicate"><i class="fa fa-copy"></i></a>
+                                                <a class="btn btn-small btn-success" data-toggle="tooltip" data-placement="top" title="Export"><i class="fa fa-file-excel-o"></i></a>
+                                                <a class="btn btn-small btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fa fa-file-text-o"></i></td>
+                                            <td><a href="#" title="" data-toggle="modal" data-target="#viewReportModal">My Data Report</a></td>
+                                            <td>01.02.2020</td>
+                                            <td>
+                                                <a class="btn btn-small btn-info" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-file-text-o"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Duplicate"><i class="fa fa-copy"></i></a>
+                                                <a class="btn btn-small btn-success" data-toggle="tooltip" data-placement="top" title="Export"><i class="fa fa-file-excel-o"></i></a>
+                                                <a class="btn btn-small btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="panel panel-default panel-table shadow">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">My Favorites</h3>
+                                <a class="btn widget-options pull-right panel-option"><i class="fa fa-cog"></i></a>
+                            </div>
+                            <div class="panel-settings collapse">
+                                <select id="searchType" class="selectpicker" data-width="auto">
+                                    <option value="searchFavorite">Favorites</option>
+                                    <option value="searchRecent">Recents</option>
+                                </select>
+                                <button class="btn btn-default pull-right hidden-xs">View All Favorites</button>
+                            </div>
+                            <div class="panel-body table-responsive">
+                                <table class="table table-bordered table-hover table-favorites">
+                                    <thead>
+                                        <tr>
+                                            <th><i class="fa fa-star-o"></i></th>
+                                            <th>Name</th>
+                                            <th class="favorites-created">Created</th>
+                                            <th class="favorites-actions">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><i class="fa fa-star-o"></i></td>
+                                            <td><a href="#" title="">My Favorite 1</a></td>
+                                            <td>05.02.2020</td>
+                                            <td>
+                                                <a class="btn btn-small btn-info" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-file-text-o"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Duplicate"><i class="fa fa-copy"></i></a>
+                                                <a class="btn btn-small btn-success" data-toggle="tooltip" data-placement="top" title="Export"><i class="fa fa-file-excel-o"></i></a>
+                                                <a class="btn btn-small btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fa fa-star-o"></i></td>
+                                            <td><a href="#" title="">My Favorite 2</a></td>
+                                            <td>04.02.2020</td>
+                                            <td>
+                                                <a class="btn btn-small btn-info" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-file-text-o"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Duplicate"><i class="fa fa-copy"></i></a>
+                                                <a class="btn btn-small btn-success" data-toggle="tooltip" data-placement="top" title="Export"><i class="fa fa-file-excel-o"></i></a>
+                                                <a class="btn btn-small btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fa fa-star-o"></i></td>
+                                            <td><a href="#" title="">My Favorite 3</a></td>
+                                            <td>03.02.2020</td>
+                                            <td>
+                                                <a class="btn btn-small btn-info" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-file-text-o"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Duplicate"><i class="fa fa-copy"></i></a>
+                                                <a class="btn btn-small btn-success" data-toggle="tooltip" data-placement="top" title="Export"><i class="fa fa-file-excel-o"></i></a>
+                                                <a class="btn btn-small btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fa fa-star-o"></i></td>
+                                            <td><a href="#" title="">My Favorite 4</a></td>
+                                            <td>02.02.2020</td>
+                                            <td>
+                                                <a class="btn btn-small btn-info" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-file-text-o"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Duplicate"><i class="fa fa-copy"></i></a>
+                                                <a class="btn btn-small btn-success" data-toggle="tooltip" data-placement="top" title="Export"><i class="fa fa-file-excel-o"></i></a>
+                                                <a class="btn btn-small btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fa fa-star-o"></i></td>
+                                            <td><a href="#" title="">My Favorite 5</a></td>
+                                            <td>01.02.2020</td>
+                                            <td>
+                                                <a class="btn btn-small btn-info" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-file-text-o"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-small btn-warning" data-toggle="tooltip" data-placement="top" title="Duplicate"><i class="fa fa-copy"></i></a>
+                                                <a class="btn btn-small btn-success" data-toggle="tooltip" data-placement="top" title="Export"><i class="fa fa-file-excel-o"></i></a>
+                                                <a class="btn btn-small btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 footer-copyright text-center">COPYRIGHT &copy; 2020 - SAI MEDPARTNERS LLC. - ALL RIGHTS RESERVED</div>
+                </div>
+
+            </div><!-- Container -->
+        </div><!-- Content  -->
+    </div><!-- Wrapper -->
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Bootstrap-Table -->
+    <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.15.5/extensions/export/bootstrap-table-export.min.js"></script>
+    <!-- Bootstrap-Select  -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <!-- JQVMap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jquery.vmap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.world.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/continents/jquery.vmap.south-america.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/continents/jquery.vmap.asia.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/continents/jquery.vmap.north-america.js"></script>
+    <!-- Holder.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.6/holder.min.js"></script>
+    <!-- jQuery NewsBox -->
+    <script src="../assets/js/jquery.bootstrap.newsbox.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-advanced-news-ticker/1.0.1/js/newsTicker.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../assets/js/settings.js"></script>
+    <!-- Custom Map -->
+    <script src="../assets/js/jquery.vmap.sampledata.js"></script>
+    <script src="../assets/js/map.js"></script>
+    <!-- JQVmap -->
+    <script src="../assets/js/jquery-jvectormap-2.0.5.min.js"></script>
+    <script src="../assets/js/jquery-jvectormap-continents-mill.js"></script>
+    <script src="../assets/js/jquery-jvectormap-continents-merc.js"></script>
+
+    <script>
+        $('#map').vectorMap({
+            map: 'continents_merc',
+            zoomButtons: false,
+            zoomOnScroll: false,
+            backgroundColor: 'transparent',
+            series: {
+                regions: [{
+                    values: {
+                        AF: '#eeeeee',
+                        NA: '#007078',
+                        OC: '#eeeeee',
+                        AS: '#eeeeee',
+                        EU: '#007078',
+                        SA: '#eeeeee'
+                    }
+                }]
+            },
+            onRegionClick: function (event, code) {
+                var name = (code);
+                window.location.replace("regions");
+            }
+        });
+    </script>
+
+    <script>
+        $(function () {
+            // bind change event to select
+            $('#region-select').on('change', function () {
+                var url = $(this).val(); // get selected value
+                if (url) { // require a URL
+                    window.location = url; // redirect
+                }
+                return false;
+            });
+        });
+    </script>
+
+</body>
+</html>
